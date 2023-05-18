@@ -1,0 +1,10 @@
+{
+  "name": "com.varneon.vudon.events",
+  "version": "0.1.0-alpha.1",
+  "description": "UnityEvents for UdonSharp",
+  "displayName": "VUdon - Events",
+  "author": {
+    "name": "Varneon",
+    "url": "https://github.com/Varneon"
+  }
+}
