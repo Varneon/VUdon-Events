@@ -60,6 +60,10 @@ namespace Varneon.VUdon.UdonEvents
 }
 ```
 
+> :package: UdonSharp scripts in a UPM package will need an assembly definition reference to `Varneon.VUdon.Events.Runtime`
+>
+> ![image](https://github.com/Varneon/VUdon-Events/assets/26690821/86dbbc17-bbc5-4ddb-b596-5dd7a402b0f6)
+
 # Installation
 
 <details><summary>
