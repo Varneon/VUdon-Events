@@ -26,24 +26,14 @@ namespace Varneon.VUdon.UdonEvents
         [SerializeField, HideInInspector]
         private UdonEventHandler udonEventHandler;
 
-        // Declare a serialized hidden DataList field for each UdonEvent
-        [SerializeField, HideInInspector]
+        // Declare a serialized DataList field for each UdonEvent
+        [SerializeField, UdonEvent]
         private DataList onPlayerTriggerEntered;
 
-        // Each element on the DataList is an individual persistent call from the UnityEvent
-        [SerializeField, HideInInspector]
+        // Add UdonEventAttribute to the DataList fields for overriding
+        // the property drawer with the UdonEvent drawer
+        [SerializeField, UdonEvent]
         private DataList onPlayerTriggerExited;
-
-
-        // Declare UdonEvent fields for each UdonEvent you want to expose in the inspector
-        [UdonEventData(nameof(onPlayerTriggerEntered))]
-        public UdonEvent OnPlayerTriggerEntered;
-
-        // Add UdonEventDataAttribute to the UdonEvent fields for defining
-        // the DataList field for storing the persistent calls for runtime
-        [UdonEventData(nameof(onPlayerTriggerExited))]
-        public UdonEvent OnPlayerTriggerExited;
-
 
         public override void OnPlayerTriggerEnter(VRCPlayerApi player)
         {
