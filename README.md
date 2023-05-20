@@ -64,6 +64,14 @@ namespace Varneon.VUdon.UdonEvents
 >
 > ![image](https://github.com/Varneon/VUdon-Events/assets/26690821/86dbbc17-bbc5-4ddb-b596-5dd7a402b0f6)
 
+# Known issues
+
+> `1` UdonSharp isn't too happy about the UdonEvent fields in the class
+>
+>![image](https://github.com/Varneon/VUdon-Events/assets/26690821/df445881-dbf4-4f18-bd62-358838cef300)
+
+> `2` There is no way to know if UdonEventHandler was able to successfully invoke a call
+
 # Installation
 
 <details><summary>
