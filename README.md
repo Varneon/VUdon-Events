@@ -34,16 +34,16 @@ namespace Varneon.VUdon.UdonEvents
         [SerializeField, HideInInspector]
         private DataList onPlayerTriggerExited;
 
+
         // Declare UdonEvent fields for each UdonEvent you want to expose in the inspector
-#if !COMPILER_UDONSHARP
-        // Add UdonEventDataAttribute to the UdonEvent fields for defining
-        // the DataList field for storing the persistent calls for runtime
         [UdonEventData(nameof(onPlayerTriggerEntered))]
         public UdonEvent OnPlayerTriggerEntered;
 
+        // Add UdonEventDataAttribute to the UdonEvent fields for defining
+        // the DataList field for storing the persistent calls for runtime
         [UdonEventData(nameof(onPlayerTriggerExited))]
         public UdonEvent OnPlayerTriggerExited;
-#endif
+
 
         public override void OnPlayerTriggerEnter(VRCPlayerApi player)
         {
