@@ -1,10 +1,64 @@
+> # :warning: VUdon Events is heavily experimental and may break without a notice! Use at your own risk.
+
 <div>
 
 # [VUdon](https://github.com/Varneon/VUdon) - Events [![GitHub Repo stars](https://img.shields.io/github/stars/Varneon/VUdon-Events?style=flat&label=Stars)](https://github.com/Varneon/VUdon-Events/stargazers) [![GitHub all releases](https://img.shields.io/github/downloads/Varneon/VUdon-Events/total?color=blue&label=Downloads&style=flat)](https://github.com/Varneon/VUdon-Events/releases) [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/Varneon/VUdon-Events?color=blue&label=Release&sort=semver&style=flat)](https://github.com/Varneon/VUdon-Events/releases/latest)
 
 </div>
 
-UnityEvents for UdonSharp
+VUdon Events ("UdonEvents") allows you to *nearly natively* implement UnityEvents into UdonSharp.
+
+![image](https://github.com/Varneon/VUdon-Events/assets/26690821/9e9d2f26-edb5-424e-aa21-0cd399aa010e)
+
+# How to use VUdon Events
+
+```csharp
+using UdonSharp;
+using UnityEngine;
+using VRC.SDK3.Data;
+using VRC.SDKBase;
+
+namespace Varneon.VUdon.UdonEvents
+{
+    public class UdonEventTest : UdonSharpBehaviour
+    {
+        // Declare a serialized hidden field for the event handler singleton
+        [SerializeField, HideInInspector]
+        private UdonEventHandler udonEventHandler;
+
+        // Declare a serialized hidden DataList field for each UdonEvent
+        [SerializeField, HideInInspector]
+        private DataList onPlayerTriggerEntered;
+
+        // Each element on the DataList is an individual persistent call from the UnityEvent
+        [SerializeField, HideInInspector]
+        private DataList onPlayerTriggerExited;
+
+        // Declare UdonEvent fields for each UdonEvent you want to expose in the inspector
+#if !COMPILER_UDONSHARP
+        // Add UdonEventDataAttribute to the UdonEvent fields for defining
+        // the DataList field for storing the persistent calls for runtime
+        [UdonEventData(nameof(onPlayerTriggerEntered))]
+        public UdonEvent OnPlayerTriggerEntered;
+
+        [UdonEventData(nameof(onPlayerTriggerExited))]
+        public UdonEvent OnPlayerTriggerExited;
+#endif
+
+        public override void OnPlayerTriggerEnter(VRCPlayerApi player)
+        {
+            // Invoke the UdonEvent's persistent calls stored in the DataList field
+            udonEventHandler.Invoke(onPlayerTriggerEntered);
+        }
+
+        public override void OnPlayerTriggerExit(VRCPlayerApi player)
+        {
+            // UdonEventHandler can invoke a list of calls by providing it the DataList
+            udonEventHandler.Invoke(onPlayerTriggerExited);
+        }
+    }
+}
+```
 
 # Installation
 
