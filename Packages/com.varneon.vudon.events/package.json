@@ -7,5 +7,12 @@
     "name": "Varneon",
     "url": "https://github.com/Varneon"
   },
-  "unity": "2019.4"
+  "unity": "2019.4",
+  "resolutionStrategy": "highestMinor",
+  "dependencies": {
+    "com.vrchat.udonsharp": "1.1.7"
+  },
+  "vpmDependencies": {
+    "com.vrchat.udonsharp": ">=1.1.7 <2.0.0"
+  }
 }
