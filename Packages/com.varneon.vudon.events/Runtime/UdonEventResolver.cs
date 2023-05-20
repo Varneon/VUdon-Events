@@ -19,9 +19,11 @@ namespace Varneon.VUdon.UdonEvents
 {
     public partial class UdonEventHandler : UdonSharpBehaviour
     {
+        public void VRC_Udon_UdonBehaviour__RequestSerialization() { ((UdonBehaviour)_target).RequestSerialization(); }
+        public void VRC_Udon_UdonBehaviour__SendCustomEvent() { ((UdonBehaviour)_target).SendCustomEvent((String)_argument); }
+        public void VRC_Udon_UdonBehaviour__set_DisableInteractive() { ((UdonBehaviour)_target).DisableInteractive = (Boolean)_argument; }
+        public void VRC_Udon_UdonBehaviour__set_InteractionText() { ((UdonBehaviour)_target).InteractionText = (String)_argument; }
         public void VRC_Udon_UdonBehaviour__set_enabled() { ((UdonBehaviour)_target).enabled = (Boolean)_argument; }
-        public void VRC_Udon_UdonBehaviour__SendCustomEvent() { ((UdonBehaviour)_target).SendCustomEvent((string)_argument); }
-
         public void Cinemachine_CinemachineDollyCart__set_enabled() { ((CinemachineDollyCart)_target).enabled = (Boolean)_argument; }
         public void Cinemachine_CinemachineDollyCart__set_m_Path() { ((CinemachineDollyCart)_target).m_Path = (CinemachinePathBase)_argument; }
         public void Cinemachine_CinemachineDollyCart__set_m_Position() { ((CinemachineDollyCart)_target).m_Position = (Single)_argument; }
