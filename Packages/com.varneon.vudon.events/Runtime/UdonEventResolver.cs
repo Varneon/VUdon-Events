@@ -503,6 +503,11 @@ namespace Varneon.VUdon.UdonEvents
         public void UnityEngine_FrictionJoint2D__set_maxForce() { ((FrictionJoint2D)_target).maxForce = (Single)_argument; }
         public void UnityEngine_FrictionJoint2D__set_maxTorque() { ((FrictionJoint2D)_target).maxTorque = (Single)_argument; }
         public void UnityEngine_FrictionJoint2D__set_name() { ((FrictionJoint2D)_target).name = (String)_argument; }
+        public void UnityEngine_GameObject__Find() { GameObject.Find((String)_argument); }
+        public void UnityEngine_GameObject__SetActive() { ((GameObject)_target).SetActive((Boolean)_argument); }
+        public void UnityEngine_GameObject__set_isStatic() { ((GameObject)_target).isStatic = (Boolean)_argument; }
+        public void UnityEngine_GameObject__set_layer() { ((GameObject)_target).layer = (Int32)_argument; }
+        public void UnityEngine_GameObject__set_name() { ((GameObject)_target).name = (String)_argument; }
         public void UnityEngine_HingeJoint2D__set_autoConfigureConnectedAnchor() { ((HingeJoint2D)_target).autoConfigureConnectedAnchor = (Boolean)_argument; }
         public void UnityEngine_HingeJoint2D__set_breakForce() { ((HingeJoint2D)_target).breakForce = (Single)_argument; }
         public void UnityEngine_HingeJoint2D__set_breakTorque() { ((HingeJoint2D)_target).breakTorque = (Single)_argument; }
