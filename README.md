@@ -56,10 +56,6 @@ namespace Varneon.VUdon.UdonEvents
 
 # Known issues
 
-> [`#1 UdonSharp throws errors about UdonEvent field not being compatible with serializer`](https://github.com/Varneon/VUdon-Events/issues/1)
->
->![image](https://github.com/Varneon/VUdon-Events/assets/26690821/c473468e-5b8d-4061-a3c5-5a4e0a369bfb)
-
 > [`#2 There is no indication of whether a call was successfully invoked or not`](https://github.com/Varneon/VUdon-Events/issues/2)
 
 # Installation
