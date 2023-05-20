@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Varneon.VUdon.UdonEvents
 {
+    [AddComponentMenu("")]
     public class UdonEventStorage : MonoBehaviour
     {
         public List<EventGroup> Events => _events;
