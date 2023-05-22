@@ -33,6 +33,13 @@ namespace Varneon.VUdon.UdonEvents
         [PublicAPI]
         public void Invoke(Object target, string methodName, UdonEventListenerMode mode, object argument)
         {
+            if(target == null)
+            {
+                LogWarning(string.Concat("Call target for method '<color=#FEDCBA>", methodName, "</color>' was null!"));
+
+                return;
+            }
+
             Type targetType = target.GetType();
 
             if(typeMethodTree.TryGetValue(targetType.FullName, out DataToken methodTreeToken))
