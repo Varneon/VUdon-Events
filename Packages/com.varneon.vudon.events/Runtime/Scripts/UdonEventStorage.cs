@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using UdonSharp;
 using UnityEngine;
 
 namespace Varneon.VUdon.UdonEvents
@@ -8,7 +8,14 @@ namespace Varneon.VUdon.UdonEvents
     [AddComponentMenu("")]
     public class UdonEventStorage : MonoBehaviour
     {
-        public List<EventGroup> Events => _events;
+        internal ScriptableObject Editor;
+
+        internal UdonSharpBehaviour Target => _target;
+
+        [SerializeField]
+        private UdonSharpBehaviour _target;
+
+        internal List<EventGroup> Events => _events;
 
         [SerializeField]
         private List<EventGroup> _events = new List<EventGroup>();
@@ -16,7 +23,7 @@ namespace Varneon.VUdon.UdonEvents
         [Serializable]
         public class EventGroup
         {
-            public Component Target;
+            public UdonEventAttribute Attribute;
 
             public string EventName;
 
@@ -24,10 +31,8 @@ namespace Varneon.VUdon.UdonEvents
 
             public UdonEvent Event;
 
-            public EventGroup(Component target, string eventName, string eventDisplayName)
+            public EventGroup(string eventName, string eventDisplayName)
             {
-                Target = target;
-
                 EventName = eventName;
 
                 EventDisplayName = eventDisplayName;
@@ -36,32 +41,29 @@ namespace Varneon.VUdon.UdonEvents
 
         internal void CleanUpEventsOrSelf()
         {
-            int removedEvents = _events.RemoveAll(e => e.Target == null);
-
-            if (removedEvents > 0)
+            if(_target == null)
             {
-                Debug.LogWarning(string.Concat("[<color=#ABCDEF>UdonEventStorage</color>]: ", removedEvents, " empty events removed on '<color=#888>", name, "</color>' due to missing targets!"));
-            }
-
-            if (_events.Count == 0)
-            {
-                Debug.LogWarning(string.Concat("[<color=#ABCDEF>UdonEventStorage</color>]: Found an event storage with no events on '<color=#888>", name, "</color>'! Removing storage..."));
+                Debug.LogWarning(string.Concat("[<color=#ABCDEF>UdonEventStorage</color>]: Found an event storage with no target on '<color=#888>", name, "</color>'! Removing storage..."));
 
                 DestroyImmediate(this);
+                
+                return;
             }
         }
 
-#if UNITY_EDITOR
-        public bool TryBind(Component target, string eventName, string eventDisplayName)
+        internal bool TryBind(UdonSharpBehaviour target, string eventName, string eventDisplayName)
         {
-            if(_events.Any(e => e.Target.Equals(target) && e.EventName.Equals(eventName))) { return false; }
+            if (_target != null && _target != target) { return false; }
 
+#if UNITY_EDITOR
             UnityEditor.Undo.RecordObject(this, "Bind UdonEventStorage");
+#endif
 
-            _events.Add(new EventGroup(target, eventName, eventDisplayName));
+            _target = target;
+
+            _events.Add(new EventGroup(eventName, eventDisplayName));
 
             return true;
         }
-#endif
     }
 }
