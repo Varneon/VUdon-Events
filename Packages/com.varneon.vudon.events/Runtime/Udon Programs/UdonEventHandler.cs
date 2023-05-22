@@ -40,9 +40,9 @@ namespace Varneon.VUdon.UdonEvents
                 return;
             }
 
-            Type targetType = target.GetType();
+            string targetTypeFullName = target.GetType().FullName;
 
-            if(typeMethodTree.TryGetValue(targetType.FullName, out DataToken methodTreeToken))
+            if (typeMethodTree.TryGetValue(targetTypeFullName, out DataToken methodTreeToken))
             {
                 if(((DataDictionary)methodTreeToken).TryGetValue(methodName, out DataToken methodIndexToken))
                 {
@@ -58,12 +58,12 @@ namespace Varneon.VUdon.UdonEvents
                 }
                 else
                 {
-                    LogWarning(string.Concat("The method '<color=#FEDCBA>", methodName, "</color>' on '<color=#FEDCBA>", targetType.FullName, "</color>' is not exposed to Udon!"));
+                    LogWarning(string.Concat("The method '<color=#FEDCBA>", methodName, "</color>' on '<color=#FEDCBA>", targetTypeFullName, "</color>' is not exposed to Udon!"));
                 }
             }
             else
             {
-                LogWarning(string.Concat("The type '<color=#FEDCBA>", targetType.FullName, "</color>' doesn't have any exposed methods!"));
+                LogWarning(string.Concat("The type '<color=#FEDCBA>", targetTypeFullName, "</color>' doesn't have any exposed methods!"));
             }
         }
 
