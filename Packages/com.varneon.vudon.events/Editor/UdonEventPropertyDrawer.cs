@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UdonSharp;
+using UnityEditor;
 using UnityEngine;
 
 namespace Varneon.VUdon.UdonEvents.Editor
@@ -8,10 +10,6 @@ namespace Varneon.VUdon.UdonEvents.Editor
     {
         private UdonEventStorageEditor storageEditor;
 
-        private UdonEventStorage eventStorage;
-
-        private int eventIndex;
-
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return 0f;
@@ -19,41 +17,28 @@ namespace Varneon.VUdon.UdonEvents.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            GetOrCreateStorageEditor(property).OnProxyInspectorGUI(eventIndex);
-        }
+            UdonEventAttribute eventAttribute = (UdonEventAttribute)attribute;
 
-        private UdonEventStorage GetOrAddUdonEventStorage(Component component, string eventName, string eventDisplayName)
-        {
-            if(eventStorage == null)
+            eventAttribute.GetOrAddUdonEventStorage((UdonSharpBehaviour)property.serializedObject.targetObject, property.name, property.displayName);
+
+            GameObject[] gameObjects = Selection.gameObjects;
+
+            if (gameObjects.Length > 1 && gameObjects.Select(g => g.GetComponents<UdonEventStorage>().Length).Max() > 1)
             {
-                GameObject gameObject = component.gameObject;
+                GUILayout.Label(property.displayName);
 
-                if(!gameObject.TryGetComponent(out eventStorage))
-                {
-                    eventStorage = gameObject.AddComponent<UdonEventStorage>();
-                }
+                EditorGUILayout.HelpBox("Multi-object editing of UdonEvents is only supported for objects with one UdonSharpBehaviour of the same type which use UdonEvents", MessageType.Warning);
+
+                return;
             }
 
-            eventIndex = eventStorage.Events.FindIndex(e => e.Target.Equals(component) && e.EventName.Equals(eventName));
+            storageEditor = (UdonEventStorageEditor)eventAttribute.EventStorage.Editor;
 
-            if(eventIndex < 0)
-            {
-                eventIndex = eventStorage.Events.Count;
+            if(storageEditor == null) { return; }
 
-                eventStorage.TryBind(component, eventName, eventDisplayName);
-            }
+            storageEditor.index = eventAttribute.EventIndex;
 
-            return eventStorage;
-        }
-
-        private UdonEventStorageEditor GetOrCreateStorageEditor(SerializedProperty property)
-        {
-            if(storageEditor == null)
-            {
-                storageEditor = (UdonEventStorageEditor)UnityEditor.Editor.CreateEditor(GetOrAddUdonEventStorage((Component)property.serializedObject.targetObject, property.name, property.displayName), typeof(UdonEventStorageEditor));
-            }
-
-            return storageEditor;
+            storageEditor.OnInspectorGUI();
         }
     }
 }

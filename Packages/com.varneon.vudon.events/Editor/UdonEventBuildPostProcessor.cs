@@ -38,9 +38,9 @@ namespace Varneon.VUdon.UdonEvents.Editor
             {
                 if (Attribute.IsDefined(field, typeof(UdonEventAttribute)))
                 {
-                    UdonEventStorage eventStorage = behaviour.GetComponent<UdonEventStorage>();
+                    UdonEventStorage eventStorage = behaviour.GetComponents<UdonEventStorage>().FirstOrDefault(s => s.Target.Equals(behaviour));
                     
-                    int eventIndex = eventStorage.Events.FindIndex(e => e.Target.Equals(behaviour) && e.EventName.Equals(field.Name));
+                    int eventIndex = eventStorage.Events.FindIndex(e => e.EventName.Equals(field.Name));
                     
                     DataList data = eventStorage.Events[eventIndex].Event.ToDataList();
 
