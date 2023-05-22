@@ -19,9 +19,11 @@ namespace Varneon.VUdon.UdonEvents
 {
     public partial class UdonEventHandler : UdonSharpBehaviour
     {
+        public void VRC_Udon_UdonBehaviour__RequestSerialization() { ((UdonBehaviour)_target).RequestSerialization(); }
+        public void VRC_Udon_UdonBehaviour__SendCustomEvent() { ((UdonBehaviour)_target).SendCustomEvent((String)_argument); }
+        public void VRC_Udon_UdonBehaviour__set_DisableInteractive() { ((UdonBehaviour)_target).DisableInteractive = (Boolean)_argument; }
+        public void VRC_Udon_UdonBehaviour__set_InteractionText() { ((UdonBehaviour)_target).InteractionText = (String)_argument; }
         public void VRC_Udon_UdonBehaviour__set_enabled() { ((UdonBehaviour)_target).enabled = (Boolean)_argument; }
-        public void VRC_Udon_UdonBehaviour__SendCustomEvent() { ((UdonBehaviour)_target).SendCustomEvent((string)_argument); }
-
         public void Cinemachine_CinemachineDollyCart__set_enabled() { ((CinemachineDollyCart)_target).enabled = (Boolean)_argument; }
         public void Cinemachine_CinemachineDollyCart__set_m_Path() { ((CinemachineDollyCart)_target).m_Path = (CinemachinePathBase)_argument; }
         public void Cinemachine_CinemachineDollyCart__set_m_Position() { ((CinemachineDollyCart)_target).m_Position = (Single)_argument; }
@@ -503,6 +505,11 @@ namespace Varneon.VUdon.UdonEvents
         public void UnityEngine_FrictionJoint2D__set_maxForce() { ((FrictionJoint2D)_target).maxForce = (Single)_argument; }
         public void UnityEngine_FrictionJoint2D__set_maxTorque() { ((FrictionJoint2D)_target).maxTorque = (Single)_argument; }
         public void UnityEngine_FrictionJoint2D__set_name() { ((FrictionJoint2D)_target).name = (String)_argument; }
+        public void UnityEngine_GameObject__Find() { GameObject.Find((String)_argument); }
+        public void UnityEngine_GameObject__SetActive() { ((GameObject)_target).SetActive((Boolean)_argument); }
+        public void UnityEngine_GameObject__set_isStatic() { ((GameObject)_target).isStatic = (Boolean)_argument; }
+        public void UnityEngine_GameObject__set_layer() { ((GameObject)_target).layer = (Int32)_argument; }
+        public void UnityEngine_GameObject__set_name() { ((GameObject)_target).name = (String)_argument; }
         public void UnityEngine_HingeJoint2D__set_autoConfigureConnectedAnchor() { ((HingeJoint2D)_target).autoConfigureConnectedAnchor = (Boolean)_argument; }
         public void UnityEngine_HingeJoint2D__set_breakForce() { ((HingeJoint2D)_target).breakForce = (Single)_argument; }
         public void UnityEngine_HingeJoint2D__set_breakTorque() { ((HingeJoint2D)_target).breakTorque = (Single)_argument; }

@@ -36,16 +36,15 @@ namespace Varneon.VUdon.UdonEvents.Editor
 
             foreach(FieldInfo field in fields)
             {
-                if (Attribute.IsDefined(field, typeof(UdonEventDataAttribute)))
+                if (Attribute.IsDefined(field, typeof(UdonEventAttribute)))
                 {
-                    FieldInfo dataField = fields.FirstOrDefault(f => f.Name.Equals(field.GetCustomAttribute<UdonEventDataAttribute>().EventDataFieldName));
+                    UdonEventStorage eventStorage = behaviour.GetComponent<UdonEventStorage>();
+                    
+                    int eventIndex = eventStorage.Events.FindIndex(e => e.Target.Equals(behaviour) && e.EventName.Equals(field.Name));
+                    
+                    DataList data = eventStorage.Events[eventIndex].Event.ToDataList();
 
-                    if (dataField != null)
-                    {
-                        DataList data = ((UdonEvent)field.GetValue(behaviour)).ToDataList();
-
-                        dataField.SetValue(behaviour, data);
-                    }
+                    field.SetValue(behaviour, data);
                 }
                 else if (field.FieldType.Equals(typeof(UdonEventHandler)))
                 {

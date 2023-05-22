@@ -11,6 +11,7 @@ namespace Varneon.VUdon.UdonEvents
     /// <summary>
     /// Singleton handler for UdonEvents
     /// </summary>
+    [AddComponentMenu("")]
     [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
     public partial class UdonEventHandler : UdonSharpBehaviour
     {
