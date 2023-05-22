@@ -33,21 +33,31 @@ namespace Varneon.VUdon.UdonEvents
         [PublicAPI]
         public void Invoke(Object target, string methodName, UdonEventListenerMode mode, object argument)
         {
-            //Debug.Log(string.Concat(LOG_PREFIX, "Invoke(", target, ",", methodName, ",", mode.ToString(), ",", argument, ")"));
-
             Type targetType = target.GetType();
 
-            _target = target;
+            if(typeMethodTree.TryGetValue(targetType.FullName, out DataToken methodTreeToken))
+            {
+                if(((DataDictionary)methodTreeToken).TryGetValue(methodName, out DataToken methodIndexToken))
+                {
+                    _target = target;
 
-            _mode = mode;
+                    _mode = mode;
 
-            _argument = argument;
+                    _argument = argument;
 
-            string typeName = targetType.FullName.Replace('.', '_');
+                    string methodProxyName = string.Concat("_", methodIndexToken.String);
 
-            string methodProxy = string.Concat(typeName, "__", methodName);
-
-            SendCustomEvent(methodProxy);
+                    SendCustomEvent(methodProxyName);
+                }
+                else
+                {
+                    LogWarning(string.Concat("The method '<color=#FEDCBA>", methodName, "</color>' on '<color=#FEDCBA>", targetType.FullName, "</color>' is not exposed to Udon!"));
+                }
+            }
+            else
+            {
+                LogWarning(string.Concat("The type '<color=#FEDCBA>", targetType.FullName, "</color>' doesn't have any exposed methods!"));
+            }
         }
 
         /// <summary>
@@ -63,6 +73,11 @@ namespace Varneon.VUdon.UdonEvents
 
                 Invoke((Object)callData[0], (string)callData[1], (UdonEventListenerMode)callData[2], callData[3]);
             }
+        }
+
+        private void LogWarning(string message)
+        {
+            Debug.LogWarning(string.Concat(LOG_PREFIX, message));
         }
     }
 }
