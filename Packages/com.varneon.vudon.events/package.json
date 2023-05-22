@@ -1,6 +1,6 @@
 {
   "name": "com.varneon.vudon.events",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "UnityEvents for UdonSharp",
   "displayName": "VUdon - Events",
   "author": {
