@@ -6,6 +6,8 @@ namespace Varneon.VUdon.UdonEvents
 {
     public class UdonEventAttribute : PropertyAttribute
     {
+#if !COMPILER_UDONSHARP
+
         internal UdonEventStorage EventStorage;
 
         internal int EventIndex = -1;
@@ -40,5 +42,8 @@ namespace Varneon.VUdon.UdonEvents
 
             return EventStorage;
         }
+
+#endif
+
     }
 }

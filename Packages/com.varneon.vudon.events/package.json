@@ -1,6 +1,6 @@
 {
   "name": "com.varneon.vudon.events",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.7",
   "description": "UnityEvents for UdonSharp",
   "displayName": "VUdon - Events",
   "author": {
@@ -10,9 +10,9 @@
   "unity": "2019.4",
   "resolutionStrategy": "highestMinor",
   "dependencies": {
-    "com.vrchat.udonsharp": "1.1.8"
+    "com.vrchat.worlds": "3.4.0"
   },
   "vpmDependencies": {
-    "com.vrchat.udonsharp": ">=1.1.8 <2.0.0"
+    "com.vrchat.worlds": ">=3.4.0 <4.0.0"
   }
 }
