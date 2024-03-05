@@ -26,24 +26,14 @@ namespace Varneon.VUdon.UdonEvents
         [SerializeField, HideInInspector]
         private UdonEventHandler udonEventHandler;
 
-        // Declare a serialized hidden DataList field for each UdonEvent
-        [SerializeField, HideInInspector]
+        // Declare a serialized DataList field for each UdonEvent
+        [SerializeField, UdonEvent]
         private DataList onPlayerTriggerEntered;
 
-        // Each element on the DataList is an individual persistent call from the UnityEvent
-        [SerializeField, HideInInspector]
+        // Add UdonEventAttribute to the DataList fields for overriding
+        // the property drawer with the UdonEvent drawer
+        [SerializeField, UdonEvent]
         private DataList onPlayerTriggerExited;
-
-
-        // Declare UdonEvent fields for each UdonEvent you want to expose in the inspector
-        [UdonEventData(nameof(onPlayerTriggerEntered))]
-        public UdonEvent OnPlayerTriggerEntered;
-
-        // Add UdonEventDataAttribute to the UdonEvent fields for defining
-        // the DataList field for storing the persistent calls for runtime
-        [UdonEventData(nameof(onPlayerTriggerExited))]
-        public UdonEvent OnPlayerTriggerExited;
-
 
         public override void OnPlayerTriggerEnter(VRCPlayerApi player)
         {
@@ -65,10 +55,6 @@ namespace Varneon.VUdon.UdonEvents
 > ![image](https://github.com/Varneon/VUdon-Events/assets/26690821/86dbbc17-bbc5-4ddb-b596-5dd7a402b0f6)
 
 # Known issues
-
-> [`#1 UdonSharp throws errors about UdonEvent field not being compatible with serializer`](https://github.com/Varneon/VUdon-Events/issues/1)
->
->![image](https://github.com/Varneon/VUdon-Events/assets/26690821/c473468e-5b8d-4061-a3c5-5a4e0a369bfb)
 
 > [`#2 There is no indication of whether a call was successfully invoked or not`](https://github.com/Varneon/VUdon-Events/issues/2)
 

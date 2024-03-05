@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !COMPILER_UDONSHARP
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine.Events;
@@ -9,7 +11,68 @@ namespace Varneon.VUdon.UdonEvents
     [Serializable]
     public class UdonEvent : UnityEvent
     {
+#if UNITY_EDITOR
         private const BindingFlags BINDING_FLAGS = BindingFlags.Instance | BindingFlags.NonPublic;
+
+        public UdonEvent Clone()
+        {
+            UdonEvent newUdonEvent = (UdonEvent)Activator.CreateInstance(GetType());
+
+            FieldInfo callGroupField = typeof(UnityEventBase).GetField("m_PersistentCalls", BINDING_FLAGS);
+
+            var callGroup = callGroupField.GetValue(this);
+
+            Type persistentCallGroupType = callGroup.GetType();
+
+            FieldInfo callsField = persistentCallGroupType.GetField("m_Calls", BINDING_FLAGS);
+
+            var persistentCalls = callsField.GetValue(callGroup);
+
+            var newPersistentCalls = callsField.GetValue(callGroupField.GetValue(newUdonEvent));
+
+            MethodInfo addMethod = newPersistentCalls.GetType().GetMethod("Add");
+
+            foreach (object call in persistentCalls as IEnumerable<object>)
+            {
+                Type persistentCallType = call.GetType();
+
+                var newCall = Activator.CreateInstance(persistentCallType);
+
+                FieldInfo targetField = persistentCallType.GetField("m_Target", BINDING_FLAGS);
+                targetField.SetValue(newCall, targetField.GetValue(call));
+
+                FieldInfo methodNameField = persistentCallType.GetField("m_MethodName", BINDING_FLAGS);
+                methodNameField.SetValue(newCall, methodNameField.GetValue(call));
+
+                FieldInfo modeField = persistentCallType.GetField("m_Mode", BINDING_FLAGS);
+                modeField.SetValue(newCall, modeField.GetValue(call));
+
+                FieldInfo callStateField = persistentCallType.GetField("m_CallState", BINDING_FLAGS);
+                callStateField.SetValue(newCall, callStateField.GetValue(call));
+
+                FieldInfo argumentsField = persistentCallType.GetField("m_Arguments", BINDING_FLAGS);
+                var arguments = argumentsField.GetValue(call);
+                Type argumentCacheType = arguments.GetType();
+                var newArguments = Activator.CreateInstance(argumentCacheType);
+                foreach(FieldInfo field in argumentCacheType.GetFields(BINDING_FLAGS))
+                {
+                    field.SetValue(newArguments, field.GetValue(arguments));
+                }
+                argumentsField.SetValue(newCall, newArguments);
+
+                addMethod.Invoke(newPersistentCalls, new object[] { newCall });
+            }
+
+            MethodInfo dirtyPersistentCallsMethod = typeof(UnityEventBase).GetMethod("DirtyPersistentCalls", BINDING_FLAGS);
+
+            dirtyPersistentCallsMethod.Invoke(newUdonEvent, null);
+
+            MethodInfo rebuildPersistentCallsIfNeededMethod = typeof(UnityEventBase).GetMethod("RebuildPersistentCallsIfNeeded", BINDING_FLAGS);
+
+            rebuildPersistentCallsIfNeededMethod.Invoke(newUdonEvent, null);
+
+            return newUdonEvent;
+        }
 
         public DataList ToDataList()
         {
@@ -44,13 +107,36 @@ namespace Varneon.VUdon.UdonEvents
 
                 var arguments = m_Arguments.GetValue(call);
 
-                data.Add(new DataToken(new object[]
+                object target = m_target.GetValue(call);
+
+                Type targetType = target.GetType();
+
+                UdonEventResolver.Instance.TryResolveEventMethod(targetType, m_MethodName.GetValue(call).ToString(), out string methodAddress, out string targetAddress);
+
+                object argument = GetMethodArgument(arguments, mode);
+
+                if(argument == null)
                 {
-                    m_target.GetValue(call),
-                    m_MethodName.GetValue(call),
-                    (int)mode,
-                    GetMethodArgument(arguments, mode)
-                }));
+                    data.Add(new DataToken(new object[]
+                    {
+                        target,
+                        targetAddress,
+                        methodAddress
+                    }));
+                }
+                else
+                {
+                    UdonEventResolver.Instance.TryResolveEventArgument(argument, out string argumentAddress);
+
+                    data.Add(new DataToken(new object[]
+                    {
+                        target,
+                        targetAddress,
+                        methodAddress,
+                        argument,
+                        argumentAddress
+                    }));
+                }
             }
 
             object GetMethodArgument(object arguments, PersistentListenerMode mode)
@@ -76,5 +162,8 @@ namespace Varneon.VUdon.UdonEvents
 
             return data;
         }
+#endif
     }
 }
+
+#endif

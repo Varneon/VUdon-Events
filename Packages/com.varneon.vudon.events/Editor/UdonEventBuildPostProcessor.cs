@@ -16,6 +16,8 @@ namespace Varneon.VUdon.UdonEvents.Editor
     {
         private static UdonEventHandler eventHandler;
 
+        private const string LOG_PREFIX = "[<color=#ABC>VUdon</color>][<color=#ABCDEF>UdonEvents</color>]: ";
+
         [UsedImplicitly]
         [PostProcessScene(-1)]
         private static void PostProcessUdonEvents()
@@ -34,18 +36,23 @@ namespace Varneon.VUdon.UdonEvents.Editor
 
             Dictionary<string, FieldInfo> eventDataFields = new Dictionary<string, FieldInfo>();
 
-            foreach(FieldInfo field in fields)
+            if(!behaviour.gameObject.TryGetComponent(out UdonEventStorage _)) { return; }
+
+            UdonEventStorage eventStorage = behaviour.GetComponents<UdonEventStorage>().FirstOrDefault(s => s.Target.Equals(behaviour));
+
+            if(eventStorage == null) { return; }
+
+            foreach (FieldInfo field in fields)
             {
-                if (Attribute.IsDefined(field, typeof(UdonEventDataAttribute)))
+                if (Attribute.IsDefined(field, typeof(UdonEventAttribute)))
                 {
-                    FieldInfo dataField = fields.FirstOrDefault(f => f.Name.Equals(field.GetCustomAttribute<UdonEventDataAttribute>().EventDataFieldName));
+                    int eventIndex = eventStorage.Events.FindIndex(e => e.EventName.Equals(field.Name));
+                    
+                    if(eventIndex < 0) { Debug.LogWarning(string.Concat(LOG_PREFIX, nameof(UdonEventStorage), " on '", behaviour.name, "' doesn't have an event stored for '", field.Name, "' in ", behaviour.GetType().FullName, "!"), behaviour.gameObject); continue; }
 
-                    if (dataField != null)
-                    {
-                        DataList data = ((UdonEvent)field.GetValue(behaviour)).ToDataList();
+                    DataList data = eventStorage.Events[eventIndex].Event.ToDataList();
 
-                        dataField.SetValue(behaviour, data);
-                    }
+                    field.SetValue(behaviour, data);
                 }
                 else if (field.FieldType.Equals(typeof(UdonEventHandler)))
                 {
