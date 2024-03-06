@@ -56,14 +56,10 @@ namespace Varneon.VUdon.UdonEvents
 
 # Installation
 
-<details><summary>
-
 ### Import from [Unitypackage](https://docs.unity3d.com/2019.4/Documentation/Manual/AssetPackagesImport.html):</summary>
 
 > 1. Download latest `com.varneon.vudon.events.unitypackage` from [here](https://github.com/Varneon/VUdon-Events/releases/latest)
 > 2. Import the downloaded .unitypackage into your Unity project
-
-</details>
 
 <div align="center">
 
