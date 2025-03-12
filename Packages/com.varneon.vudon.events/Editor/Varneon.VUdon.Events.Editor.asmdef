@@ -1,5 +1,6 @@
 {
     "name": "Varneon.VUdon.Events.Editor",
+    "rootNamespace": "Varneon.VUdon.UdonEvents.Editor",
     "references": [
         "Varneon.VUdon.Events.Runtime",
         "UdonSharp.Runtime",

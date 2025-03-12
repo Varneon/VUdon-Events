@@ -1,6 +1,6 @@
 {
     "name": "Varneon.VUdon.Events.Runtime",
-    "rootNamespace": "",
+    "rootNamespace": "Varneon.VUdon.UdonEvents",
     "references": [
         "VRC.Udon",
         "UdonSharp.Runtime",
