@@ -1,11 +1,13 @@
 {
     "name": "Varneon.VUdon.Events.Runtime",
+    "rootNamespace": "",
     "references": [
         "VRC.Udon",
         "UdonSharp.Runtime",
         "Unity.TextMeshPro",
         "Cinemachine",
-        "Unity.Postprocessing.Runtime"
+        "Unity.Postprocessing.Runtime",
+        "Unity.AI.Navigation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
