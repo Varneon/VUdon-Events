@@ -9,7 +9,11 @@ using UnityEngine;
 
 namespace Varneon.VUdon.UdonEvents
 {
-    [AddComponentMenu("")]
+    /// <summary>
+    /// Component for storing the native UnityEvents in editor
+    /// </summary>
+    [AddComponentMenu("")] // This component is automatically managed and should never be added by the end user
+    [ExcludeFromPreset]
     public class UdonEventStorage : MonoBehaviour
     {
         internal ScriptableObject Editor;

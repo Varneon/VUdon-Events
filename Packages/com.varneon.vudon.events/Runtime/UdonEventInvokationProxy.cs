@@ -18,6 +18,8 @@ using VRCStation = VRC.SDK3.Components.VRCStation;
 
 namespace Varneon.VUdon.UdonEvents
 {
+    // This partial class of the UdonEventHandler is automatically generated from Udon node definitions
+    // Nothing within the brackets below shall ever be modified manually!
     public partial class UdonEventHandler : UdonSharpBehaviour
     {
         private UdonBehaviour _t00;
