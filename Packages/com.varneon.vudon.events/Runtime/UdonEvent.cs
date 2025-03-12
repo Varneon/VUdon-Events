@@ -90,6 +90,7 @@ namespace Varneon.VUdon.UdonEvents
             FieldInfo m_MethodName = persistentCallType.GetField("m_MethodName", BINDING_FLAGS);
             FieldInfo m_Mode = persistentCallType.GetField("m_Mode", BINDING_FLAGS);
             FieldInfo m_Arguments = persistentCallType.GetField("m_Arguments", BINDING_FLAGS);
+            FieldInfo m_CallState = persistentCallType.GetField("m_CallState", BINDING_FLAGS);
 
             Type argumentCacheType = m_Arguments.FieldType;
 
@@ -103,6 +104,9 @@ namespace Varneon.VUdon.UdonEvents
 
             foreach (object call in persistentCalls as IEnumerable<object>)
             {
+                UnityEventCallState callState = (UnityEventCallState)m_CallState.GetValue(call);
+                if (callState == UnityEventCallState.Off) { continue; }
+
                 PersistentListenerMode mode = (PersistentListenerMode)m_Mode.GetValue(call);
 
                 var arguments = m_Arguments.GetValue(call);
