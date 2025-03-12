@@ -319,7 +319,7 @@ namespace Varneon.VUdon.UdonEvents
         public void _8A() { _t0F.avatar = _a07; }
         public void _8B() { _t0F.enabled = _a01; }
         public void _8C() { _t0F.feetPivotActive = _a03; }
-        public void _8D() { _t0F.keepAnimatorControllerStateOnDisable = _a01; }
+        public void _8D() { _t0F.keepAnimatorStateOnDisable = _a01; }
         public void _8E() { _t0F.layersAffectMassCenter = _a01; }
         public void _8F() { _t0F.logWarnings = _a01; }
         public void _90() { _t0F.name = _a00; }
