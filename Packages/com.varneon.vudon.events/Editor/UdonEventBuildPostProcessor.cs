@@ -65,7 +65,7 @@ namespace Varneon.VUdon.UdonEvents.Editor
         {
             if(eventHandler == null)
             {
-                eventHandler = SceneManager.GetActiveScene().GetRootGameObjects().Select(r => r.GetComponentInChildren<UdonEventHandler>(true)).FirstOrDefault();
+                eventHandler = UnityEngine.Object.FindObjectOfType<UdonEventHandler>(true);
 
                 if(eventHandler == null)
                 {
