@@ -69,10 +69,10 @@ namespace Varneon.VUdon.UdonEvents
         public void Invoke(DataList eventCalls)
         {
             // Iterate through all of the persistent calls on the UdonEvent
-            foreach(DataToken e in eventCalls.ToArray())
+            for(int i = 0; i < eventCalls.Count; i++)
             {
                 // Get the serialized data on the persistent call
-                object[] callData = (object[])e.Reference;
+                object[] callData = (object[])eventCalls[i].Reference;
 
                 // Check if target is valid
                 if(_target = (Object)callData[0])
