@@ -18,7 +18,7 @@ namespace Varneon.VUdon.UdonEvents
             {
                 GameObject gameObject = component.gameObject;
 
-                EventStorage = gameObject.GetComponents<UdonEventStorage>().FirstOrDefault(s => s.Target.Equals(component));
+                EventStorage = gameObject.GetComponents<UdonEventStorage>().FirstOrDefault(s => s.Target == component);
 
                 if (EventStorage == null)
                 {
@@ -28,7 +28,7 @@ namespace Varneon.VUdon.UdonEvents
 
             if (EventIndex < 0)
             {
-                EventIndex = EventStorage.Events.FindIndex(e => e.EventName.Equals(eventName));
+                EventIndex = EventStorage.Events.FindIndex(e => e.EventName == eventName);
 
                 if(EventIndex < 0)
                 {
