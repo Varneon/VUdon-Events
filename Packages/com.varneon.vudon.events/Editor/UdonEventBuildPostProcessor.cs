@@ -56,26 +56,9 @@ namespace Varneon.VUdon.UdonEvents.Editor
                 }
                 else if (field.FieldType.Equals(typeof(UdonEventHandler)))
                 {
-                    field.SetValue(behaviour, GetOrAddUdonEventHandler());
+                    field.SetValue(behaviour, UdonEventEditorUtility.GetOrAddUdonEventHandler());
                 }
             }
-        }
-
-        private static UdonEventHandler GetOrAddUdonEventHandler()
-        {
-            if(eventHandler == null)
-            {
-                eventHandler = UnityEngine.Object.FindObjectOfType<UdonEventHandler>(true);
-
-                if(eventHandler == null)
-                {
-                    eventHandler = new GameObject(nameof(UdonEventHandler)).AddUdonSharpComponent<UdonEventHandler>();
-
-                    UdonSharpEditorUtility.GetBackingUdonBehaviour(eventHandler).SyncMethod = VRC.SDKBase.Networking.SyncType.None;
-                }
-            }
-
-            return eventHandler;
         }
     }
 }
