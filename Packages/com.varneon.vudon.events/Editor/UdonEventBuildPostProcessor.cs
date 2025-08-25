@@ -14,8 +14,6 @@ namespace Varneon.VUdon.UdonEvents.Editor
 {
     internal static class UdonEventBuildPostProcessor
     {
-        private static UdonEventHandler eventHandler;
-
         private const string LOG_PREFIX = "[<color=#ABC>VUdon</color>][<color=#ABCDEF>UdonEvents</color>]: ";
 
         [UsedImplicitly]
